@@ -8,9 +8,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.victorpereira.mymarketplace.domain.Category;
+import com.victorpereira.mymarketplace.domain.City;
 import com.victorpereira.mymarketplace.domain.Product;
+import com.victorpereira.mymarketplace.domain.State;
 import com.victorpereira.mymarketplace.repositories.CategoryRepository;
+import com.victorpereira.mymarketplace.repositories.CityRepository;
 import com.victorpereira.mymarketplace.repositories.ProductRepository;
+import com.victorpereira.mymarketplace.repositories.StateRepository;
 
 @SpringBootApplication
 public class Application implements CommandLineRunner {
@@ -20,6 +24,12 @@ public class Application implements CommandLineRunner {
 
 	@Autowired
 	private ProductRepository productRepo;
+
+	@Autowired
+	private StateRepository stateRepo;
+
+	@Autowired
+	private CityRepository cityRepo;
 
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
@@ -43,6 +53,19 @@ public class Application implements CommandLineRunner {
 
 		categoryRepo.saveAll(Arrays.asList(c1, c2));
 		productRepo.saveAll(Arrays.asList(p1, p2, p3));
+
+		State s1 = new State(null, "Minas Gerais");
+		State s2 = new State(null, "São Paulo");
+
+		City ct1 = new City(null, "Uberlândia", s1);
+		City ct2 = new City(null, "São Paulo", s2);
+		City ct3 = new City(null, "Campinas", s2);
+
+		s1.getCities().addAll(Arrays.asList(ct1));
+		s2.getCities().addAll(Arrays.asList(ct2, ct3));
+
+		stateRepo.saveAll(Arrays.asList(s1, s2));
+		cityRepo.saveAll(Arrays.asList(ct1, ct2, ct3));
 	}
 
 }
