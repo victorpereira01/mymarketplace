@@ -27,6 +27,12 @@ public class CategoryService {
 	}
 	
 	public Category insert(Category category) {
+		category.setId(null);
+		return repo.save(category);
+	}
+	
+	public Category update(Category category) {
+		findById(category.getId());
 		return repo.save(category);
 	}
 
