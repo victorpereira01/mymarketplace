@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.victorpereira.mymarketplace.domain.Category;
+import com.victorpereira.mymarketplace.dto.CategoryDTO;
 import com.victorpereira.mymarketplace.repositories.CategoryRepository;
 import com.victorpereira.mymarketplace.services.exceptions.DataIntegrityException;
 import com.victorpereira.mymarketplace.services.exceptions.ObjectNotFoundException;
@@ -54,5 +55,9 @@ public class CategoryService {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction),
 				orderBy);
 		return repo.findAll(pageRequest);
+	}
+	
+	public Category fromDTO(CategoryDTO categoryDto) {
+		return new Category(categoryDto.getId(), categoryDto.getName());
 	}
 }
