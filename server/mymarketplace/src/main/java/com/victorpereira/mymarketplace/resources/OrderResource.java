@@ -9,25 +9,27 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.victorpereira.mymarketplace.domain.Client;
-import com.victorpereira.mymarketplace.services.ClientService;
+import com.victorpereira.mymarketplace.domain.Order;
+import com.victorpereira.mymarketplace.services.OrderService;
+
+
 
 @RestController
-@RequestMapping(value = "/clients")
-public class ClientResource {
+@RequestMapping(value = "/orders")
+public class OrderResource {
 	
 	@Autowired
-	private ClientService service;
+	private OrderService service;
 	
 	@GetMapping
-	public ResponseEntity<List<Client>> findAll(){
-		List<Client> list = service.findAll();
+	public ResponseEntity<List<Order>> findAll(){
+		List<Order> list = service.findAll();
 		return ResponseEntity.ok().body(list);
 	}
 	
 	@GetMapping(value="/{id}")
-	public ResponseEntity<Client> findById(@PathVariable Integer id) {
-		Client obj = service.findById(id);
+	public ResponseEntity<Order> findById(@PathVariable Integer id) {
+		Order obj = service.findById(id);
 		return ResponseEntity.ok().body(obj);
 	}	
 }

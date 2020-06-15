@@ -6,6 +6,7 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.victorpereira.mymarketplace.domain.pk.OrderItemPK;
 
 @Entity
@@ -13,6 +14,7 @@ import com.victorpereira.mymarketplace.domain.pk.OrderItemPK;
 public class OrderItem implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	@JsonIgnore
 	@EmbeddedId
 	private OrderItemPK id = new OrderItemPK();
 
@@ -32,6 +34,7 @@ public class OrderItem implements Serializable {
 		this.price = price;
 	}
 
+	@JsonIgnore
 	public Order getOrder() {
 		return id.getOrder();
 	}
