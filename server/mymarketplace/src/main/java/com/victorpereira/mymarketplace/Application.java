@@ -7,12 +7,17 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import com.victorpereira.mymarketplace.domain.Address;
 import com.victorpereira.mymarketplace.domain.Category;
 import com.victorpereira.mymarketplace.domain.City;
+import com.victorpereira.mymarketplace.domain.Client;
 import com.victorpereira.mymarketplace.domain.Product;
 import com.victorpereira.mymarketplace.domain.State;
+import com.victorpereira.mymarketplace.domain.enums.ClientType;
+import com.victorpereira.mymarketplace.repositories.AddressRepository;
 import com.victorpereira.mymarketplace.repositories.CategoryRepository;
 import com.victorpereira.mymarketplace.repositories.CityRepository;
+import com.victorpereira.mymarketplace.repositories.ClientRepository;
 import com.victorpereira.mymarketplace.repositories.ProductRepository;
 import com.victorpereira.mymarketplace.repositories.StateRepository;
 
@@ -30,6 +35,12 @@ public class Application implements CommandLineRunner {
 
 	@Autowired
 	private CityRepository cityRepo;
+
+	@Autowired
+	private ClientRepository clientRepo;
+
+	@Autowired
+	private AddressRepository addressRepo;
 
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
@@ -66,6 +77,18 @@ public class Application implements CommandLineRunner {
 
 		stateRepo.saveAll(Arrays.asList(s1, s2));
 		cityRepo.saveAll(Arrays.asList(ct1, ct2, ct3));
+
+		Client cl1 = new Client(null, "Maria Silva", "maria@gmail.com", "3123712378", ClientType.PHYSICALPERSON);
+		cl1.getTelephones().addAll(Arrays.asList("123123133", "99981923"));
+
+		Address ad1 = new Address(null, "Rua Flores", "300", "Apto 303", "Jardim", "38220834", cl1, ct1);
+		Address ad2 = new Address(null, "Avenida Matos", "105", "Sala 800", "Centro", "11222084", cl1, ct2);
+
+		cl1.getAdresses().addAll(Arrays.asList(ad1, ad2));
+
+		clientRepo.saveAll(Arrays.asList(cl1));
+		addressRepo.saveAll(Arrays.asList(ad1, ad2));
+
 	}
 
 }
