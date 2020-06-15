@@ -15,6 +15,7 @@ import com.victorpereira.mymarketplace.domain.Category;
 import com.victorpereira.mymarketplace.domain.City;
 import com.victorpereira.mymarketplace.domain.Client;
 import com.victorpereira.mymarketplace.domain.Order;
+import com.victorpereira.mymarketplace.domain.OrderItem;
 import com.victorpereira.mymarketplace.domain.Payment;
 import com.victorpereira.mymarketplace.domain.Product;
 import com.victorpereira.mymarketplace.domain.State;
@@ -24,6 +25,7 @@ import com.victorpereira.mymarketplace.repositories.AddressRepository;
 import com.victorpereira.mymarketplace.repositories.CategoryRepository;
 import com.victorpereira.mymarketplace.repositories.CityRepository;
 import com.victorpereira.mymarketplace.repositories.ClientRepository;
+import com.victorpereira.mymarketplace.repositories.OrderItemRepository;
 import com.victorpereira.mymarketplace.repositories.OrderRepository;
 import com.victorpereira.mymarketplace.repositories.PaymentRepository;
 import com.victorpereira.mymarketplace.repositories.ProductRepository;
@@ -55,6 +57,9 @@ public class Application implements CommandLineRunner {
 
 	@Autowired
 	private PaymentRepository paymentRepo;
+
+	@Autowired
+	private OrderItemRepository orderItemRepo;
 
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
@@ -118,6 +123,17 @@ public class Application implements CommandLineRunner {
 		orderRepo.saveAll(Arrays.asList(o1, o2));
 		paymentRepo.saveAll(Arrays.asList(pay1, pay2));
 
-	}
+		OrderItem oi1 = new OrderItem(o1, p1, 0.00, 1, 2000.00);
+		OrderItem oi2 = new OrderItem(o1, p3, 0.00, 2, 80.00);
+		OrderItem oi3 = new OrderItem(o2, p2, 100.00, 1, 800.00);
 
+		o1.getItens().addAll(Arrays.asList(oi1, oi2));
+		o2.getItens().addAll(Arrays.asList(oi3));
+
+		p1.getItens().addAll(Arrays.asList(oi1));
+		p2.getItens().addAll(Arrays.asList(oi3));
+		p3.getItens().addAll(Arrays.asList(oi2));
+
+		orderItemRepo.saveAll(Arrays.asList(oi1, oi2, oi3));
+	}
 }
