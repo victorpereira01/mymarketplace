@@ -1,13 +1,14 @@
 package com.victorpereira.mymarketplace.domain.enums;
 
-public enum ClientType {
-	
-	PHYSICALPERSON(1),
-	LEGALPERSON(2);
-	
+public enum PaymentState {
+
+	PENDING(1),
+	PAID(2),
+	CANCELED(3);
+
 	private int code;
 
-	private ClientType(int code) {
+	private PaymentState(int code) {
 		this.code = code;
 	}
 
@@ -15,11 +16,11 @@ public enum ClientType {
 		return code;
 	}
 
-	public static ClientType toEnum(Integer code) {
+	public static PaymentState toEnum(Integer code) {
 		if (code == null)
 			return null;
 
-		for (ClientType x : ClientType.values()) {
+		for (PaymentState x : PaymentState.values()) {
 			if (code.equals(x.getCode()))
 				return x;
 		}

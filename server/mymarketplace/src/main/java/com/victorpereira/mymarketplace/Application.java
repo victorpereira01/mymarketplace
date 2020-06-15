@@ -1,5 +1,6 @@
 package com.victorpereira.mymarketplace;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,16 +9,23 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.victorpereira.mymarketplace.domain.Address;
+import com.victorpereira.mymarketplace.domain.BilletPayment;
+import com.victorpereira.mymarketplace.domain.CardPayment;
 import com.victorpereira.mymarketplace.domain.Category;
 import com.victorpereira.mymarketplace.domain.City;
 import com.victorpereira.mymarketplace.domain.Client;
+import com.victorpereira.mymarketplace.domain.Order;
+import com.victorpereira.mymarketplace.domain.Payment;
 import com.victorpereira.mymarketplace.domain.Product;
 import com.victorpereira.mymarketplace.domain.State;
 import com.victorpereira.mymarketplace.domain.enums.ClientType;
+import com.victorpereira.mymarketplace.domain.enums.PaymentState;
 import com.victorpereira.mymarketplace.repositories.AddressRepository;
 import com.victorpereira.mymarketplace.repositories.CategoryRepository;
 import com.victorpereira.mymarketplace.repositories.CityRepository;
 import com.victorpereira.mymarketplace.repositories.ClientRepository;
+import com.victorpereira.mymarketplace.repositories.OrderRepository;
+import com.victorpereira.mymarketplace.repositories.PaymentRepository;
 import com.victorpereira.mymarketplace.repositories.ProductRepository;
 import com.victorpereira.mymarketplace.repositories.StateRepository;
 
@@ -41,6 +49,12 @@ public class Application implements CommandLineRunner {
 
 	@Autowired
 	private AddressRepository addressRepo;
+
+	@Autowired
+	private OrderRepository orderRepo;
+
+	@Autowired
+	private PaymentRepository paymentRepo;
 
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
@@ -88,6 +102,21 @@ public class Application implements CommandLineRunner {
 
 		clientRepo.saveAll(Arrays.asList(cl1));
 		addressRepo.saveAll(Arrays.asList(ad1, ad2));
+
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		Order o1 = new Order(null, sdf.parse("30/09/2017 10:32"), cl1, ad1);
+		Order o2 = new Order(null, sdf.parse("10/10/2017 19:35"), cl1, ad2);
+
+		Payment pay1 = new CardPayment(null, PaymentState.PAID, o1, 6);
+		o1.setPayment(pay1);
+
+		Payment pay2 = new BilletPayment(null, PaymentState.PENDING, o2, sdf.parse("20/10/2017 00:00"), null);
+		o2.setPayment(pay2);
+
+		cl1.getOrders().addAll(Arrays.asList(o1, o2));
+
+		orderRepo.saveAll(Arrays.asList(o1, o2));
+		paymentRepo.saveAll(Arrays.asList(pay1, pay2));
 
 	}
 
