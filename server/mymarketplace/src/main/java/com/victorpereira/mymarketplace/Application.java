@@ -81,7 +81,7 @@ public class Application implements CommandLineRunner {
 		Client cl1 = new Client(null, "Maria Silva", "maria@gmail.com", "3123712378", ClientType.PHYSICALPERSON);
 		cl1.getTelephones().addAll(Arrays.asList("123123133", "99981923"));
 
-		Address ad1 = new Address(null, "Rua Flores", "300", "Apto 303", "Jardim", "38220834", cl1, ct1);
+		Address ad1 = new Address(null, "Rua Flores", "300", "Apto 303", "Jardim", "38 220834", cl1, ct1);
 		Address ad2 = new Address(null, "Avenida Matos", "105", "Sala 800", "Centro", "11222084", cl1, ct2);
 
 		cl1.getAdresses().addAll(Arrays.asList(ad1, ad2));
