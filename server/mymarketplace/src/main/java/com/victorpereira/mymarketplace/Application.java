@@ -69,6 +69,11 @@ public class Application implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		Category c1 = new Category(null, "Informática");
 		Category c2 = new Category(null, "Escritório");
+		Category c3 = new Category(null, "Cama, Mesa e Banho");
+		Category c4 = new Category(null, "Eletrônicos");
+		Category c5 = new Category(null, "Jardinagem");
+		Category c6 = new Category(null, "Decoração");
+		Category c7 = new Category(null, "Perfumaria");
 
 		Product p1 = new Product(null, "Computador", 2000.00);
 		Product p2 = new Product(null, "Impressora", 800.00);
@@ -81,7 +86,7 @@ public class Application implements CommandLineRunner {
 		p2.getCategories().addAll(Arrays.asList(c1, c2));
 		p3.getCategories().addAll(Arrays.asList(c1));
 
-		categoryRepo.saveAll(Arrays.asList(c1, c2));
+		categoryRepo.saveAll(Arrays.asList(c1, c2, c3, c4, c5, c6, c7));
 		productRepo.saveAll(Arrays.asList(p1, p2, p3));
 
 		State s1 = new State(null, "Minas Gerais");
