@@ -2,22 +2,46 @@ package com.victorpereira.mymarketplace.dto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
+
+import com.victorpereira.mymarketplace.services.validation.ClientInsert;
+
+@ClientInsert
 public class ClientNewDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
+	@NotEmpty(message = "Mandatory")
+	@Length(min = 5, max = 120, message = "Size must be between 5 and 120 characters")
 	private String name;
+	
+	@NotEmpty(message = "Mandatory")
+	@Length(message = "Invalid e-mail")
 	private String email;
+	
+	@NotEmpty(message = "Mandatory")
 	private String cpfOrCnpj;
 	private Integer type;
 	
+	@NotEmpty(message = "Mandatory")
 	private String publicPlace;
-	private String number;
-	private String complement;
-	private String neighborhood;
-	private String cep;
 	
+	@NotEmpty(message = "Mandatory")
+	private String number;
+	
+	private String complement;
+	
+	private String neighborhood;
+
+	@NotEmpty(message = "Mandatory")
+	private String cep;
+
+	@NotEmpty(message = "Mandatory")
 	private String tel1;
+	
 	private String tel2;
+	
 	private String tel3;
 	
 	private Integer cityId;
