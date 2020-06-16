@@ -38,7 +38,8 @@ public class CategoryService {
 	}
 
 	public Category update(Category category) {
-		findById(category.getId());
+		Category newCategory = findById(category.getId());
+		updateData(newCategory, category);
 		return repo.save(category);
 	}
 
@@ -59,5 +60,9 @@ public class CategoryService {
 	
 	public Category fromDTO(CategoryDTO categoryDto) {
 		return new Category(categoryDto.getId(), categoryDto.getName());
+	}
+	
+	private void updateData(Category newCategory, Category category) {
+		newCategory.setName(category.getName());
 	}
 }
