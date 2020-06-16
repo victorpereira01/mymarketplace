@@ -10,7 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
-import com.victorpereira.mymarketplace.domain.Category;
+import com.victorpereira.mymarketplace.domain.Category; 
 import com.victorpereira.mymarketplace.dto.CategoryDTO;
 import com.victorpereira.mymarketplace.repositories.CategoryRepository;
 import com.victorpereira.mymarketplace.services.exceptions.DataIntegrityException;
@@ -32,15 +32,15 @@ public class CategoryService {
 				"Object not found! Id: " + id + ", Tipo: " + Category.class.getName()));
 	}
 
-	public Category insert(Category category) {
-		category.setId(null);
-		return repo.save(category);
+	public Category insert(Category obj) {
+		obj.setId(null);
+		return repo.save(obj);
 	}
 
-	public Category update(Category category) {
-		Category newCategory = findById(category.getId());
-		updateData(newCategory, category);
-		return repo.save(category);
+	public Category update(Category obj) {
+		Category newObj = findById(obj.getId());
+		updateData(newObj, obj);
+		return repo.save(obj);
 	}
 
 	public void delete(Integer id) {
@@ -48,7 +48,7 @@ public class CategoryService {
 		try {
 			repo.deleteById(id);
 		} catch (DataIntegrityViolationException e) {
-			throw new DataIntegrityException("Can't delete a category that has products");
+			throw new DataIntegrityException("Can't delete a obj that has products");
 		}
 	}
 
@@ -58,11 +58,11 @@ public class CategoryService {
 		return repo.findAll(pageRequest);
 	}
 	
-	public Category fromDTO(CategoryDTO categoryDto) {
-		return new Category(categoryDto.getId(), categoryDto.getName());
+	public Category fromDTO(CategoryDTO objDto) {
+		return new Category(objDto.getId(), objDto.getName());
 	}
 	
-	private void updateData(Category newCategory, Category category) {
-		newCategory.setName(category.getName());
+	private void updateData(Category newObj, Category obj) {
+		newObj.setName(obj.getName());
 	}
 }
