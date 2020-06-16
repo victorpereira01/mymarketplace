@@ -50,7 +50,7 @@ public class Client implements Serializable {
 		this.name = name;
 		this.email = email;
 		this.cpfOrCnpj = cpfOrCnpj;
-		this.type = type.getCode();
+		this.type = (type == null) ? null : type.getCode();
 	}
 
 	public Integer getId() {
@@ -85,11 +85,11 @@ public class Client implements Serializable {
 		this.cpfOrCnpj = cpfOrCnpj;
 	}
 
-	public ClientType getClient() {
+	public ClientType getType() {
 		return ClientType.toEnum(type);
 	}
 
-	public void setClient(ClientType type) {
+	public void setType(ClientType type) {
 		this.type = type.getCode();
 	}
 
