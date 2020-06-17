@@ -6,10 +6,12 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.victorpereira.mymarketplace.domain.enums.PaymentState;
 
 @Entity
 @Table(name = "tb_billed_payment")
+@JsonTypeName("billetPayment")
 public class BilletPayment extends Payment {
 	private static final long serialVersionUID = 1L;
 	
