@@ -9,7 +9,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import com.victorpereira.mymarketplace.resources.ValidationError;
 import com.victorpereira.mymarketplace.services.exceptions.DataIntegrityException;
 import com.victorpereira.mymarketplace.services.exceptions.ObjectNotFoundException;
 

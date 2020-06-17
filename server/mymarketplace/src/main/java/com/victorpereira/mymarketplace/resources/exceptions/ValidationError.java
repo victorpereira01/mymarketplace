@@ -1,10 +1,7 @@
-package com.victorpereira.mymarketplace.resources;
+package com.victorpereira.mymarketplace.resources.exceptions;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.victorpereira.mymarketplace.resources.exceptions.FieldMessage;
-import com.victorpereira.mymarketplace.resources.exceptions.StandardError;
 
 public class ValidationError extends StandardError {
 	private static final long serialVersionUID = 1L;
