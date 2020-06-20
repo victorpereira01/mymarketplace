@@ -38,6 +38,9 @@ public class OrderService {
 	@Autowired
 	private ClientService clientService;
 	
+	@Autowired
+	private EmailService emailService;
+	
 	public List<Order> findAll() {
 		return repo.findAll();
 	}
@@ -69,7 +72,7 @@ public class OrderService {
 			i.setOrder(obj);
 		}
 		orderItemRepo.saveAll(obj.getItens());
-		System.out.println(obj);
+		emailService.sendOrderConfirmationEmail(obj);
 		return obj;
 	}
 
