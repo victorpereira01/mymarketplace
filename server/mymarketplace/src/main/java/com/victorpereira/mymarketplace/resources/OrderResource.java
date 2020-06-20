@@ -18,8 +18,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.victorpereira.mymarketplace.domain.Order;
 import com.victorpereira.mymarketplace.services.OrderService;
 
-
-
 @RestController
 @RequestMapping(value = "/orders")
 public class OrderResource {

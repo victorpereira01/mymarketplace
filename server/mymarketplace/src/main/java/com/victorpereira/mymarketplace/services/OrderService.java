@@ -35,6 +35,9 @@ public class OrderService {
 	@Autowired
 	private OrderItemRepository orderItemRepo;
 	
+	@Autowired
+	private ClientService clientService;
+	
 	public List<Order> findAll() {
 		return repo.findAll();
 	}
@@ -49,6 +52,7 @@ public class OrderService {
 	public Order insert(Order obj) {
 		obj.setId(null);
 		obj.setInstant(new Date());
+		obj.setClient(clientService.findById(obj.getClient().getId()));
 		obj.getPayment().setState(PaymentState.PENDING);
 		obj.getPayment().setOrder(obj);
 		if(obj.getPayment() instanceof BilletPayment) {
@@ -60,10 +64,12 @@ public class OrderService {
 		
 		for(OrderItem i : obj.getItens()) {
 			i.setDiscount(0.0);
-			i.setPrice(productService.findById(i.getProduct().getId()).getPrice());
+			i.setProduct(productService.findById(i.getProduct().getId()));
+			i.setPrice(i.getProduct().getPrice());
 			i.setOrder(obj);
 		}
 		orderItemRepo.saveAll(obj.getItens());
+		System.out.println(obj);
 		return obj;
 	}
 
