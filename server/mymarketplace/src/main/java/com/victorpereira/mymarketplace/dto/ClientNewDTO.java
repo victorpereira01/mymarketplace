@@ -22,7 +22,11 @@ public class ClientNewDTO implements Serializable {
 	
 	@NotEmpty(message = "Mandatory")
 	private String cpfOrCnpj;
+	
 	private Integer type;
+	
+	@NotEmpty(message = "Mandatory")
+	private String password;
 	
 	@NotEmpty(message = "Mandatory")
 	private String publicPlace;
@@ -75,6 +79,14 @@ public class ClientNewDTO implements Serializable {
 
 	public Integer getType() {
 		return type;
+	}
+	
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public void setType(Integer type) {
