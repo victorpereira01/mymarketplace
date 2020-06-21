@@ -21,6 +21,7 @@ import com.victorpereira.mymarketplace.domain.Product;
 import com.victorpereira.mymarketplace.domain.State;
 import com.victorpereira.mymarketplace.domain.enums.ClientType;
 import com.victorpereira.mymarketplace.domain.enums.PaymentState;
+import com.victorpereira.mymarketplace.domain.enums.Profile;
 import com.victorpereira.mymarketplace.repositories.AddressRepository;
 import com.victorpereira.mymarketplace.repositories.CategoryRepository;
 import com.victorpereira.mymarketplace.repositories.CityRepository;
@@ -60,7 +61,7 @@ public class DBService {
 
 	@Autowired
 	private OrderItemRepository orderItemRepo;
-	
+
 	@Autowired
 	private BCryptPasswordEncoder encoder;
 
@@ -122,16 +123,24 @@ public class DBService {
 		stateRepo.saveAll(Arrays.asList(s1, s2));
 		cityRepo.saveAll(Arrays.asList(ct1, ct2, ct3));
 
-		Client cl1 = new Client(null, "Maria Silva", "maria@gmail.com", "3123712378", ClientType.PHYSICALPERSON, encoder.encode("123") );
+		Client cl1 = new Client(null, "Maria Silva", "maria@gmail.com", "3123712378", ClientType.PHYSICALPERSON,
+				encoder.encode("123"));
 		cl1.getTelephones().addAll(Arrays.asList("123123133", "99981923"));
+
+		Client cl2 = new Client(null, "Ana Costa", "ana@gmail.com", "02206218020", ClientType.PHYSICALPERSON,
+				encoder.encode("123"));
+		cl2.addProfile(Profile.ADMIN);
+		cl1.getTelephones().addAll(Arrays.asList("9999999", "11223344"));
 
 		Address ad1 = new Address(null, "Rua Flores", "300", "Apto 303", "Jardim", "38 220834", cl1, ct1);
 		Address ad2 = new Address(null, "Avenida Matos", "105", "Sala 800", "Centro", "11222084", cl1, ct2);
+		Address ad3 = new Address(null, "Avenida Floriano", "2005", null, "Centro", "13122084", cl2, ct2);
 
 		cl1.getAdresses().addAll(Arrays.asList(ad1, ad2));
+		cl1.getAdresses().addAll(Arrays.asList(ad3));
 
-		clientRepo.saveAll(Arrays.asList(cl1));
-		addressRepo.saveAll(Arrays.asList(ad1, ad2));
+		clientRepo.saveAll(Arrays.asList(cl1, cl2));
+		addressRepo.saveAll(Arrays.asList(ad1, ad2, ad3));
 
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		Order o1 = new Order(null, sdf.parse("30/09/2017 10:32"), cl1, ad1);
