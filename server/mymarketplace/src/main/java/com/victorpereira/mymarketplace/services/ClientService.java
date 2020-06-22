@@ -18,10 +18,13 @@ import com.victorpereira.mymarketplace.domain.Address;
 import com.victorpereira.mymarketplace.domain.City;
 import com.victorpereira.mymarketplace.domain.Client;
 import com.victorpereira.mymarketplace.domain.enums.ClientType;
+import com.victorpereira.mymarketplace.domain.enums.Profile;
 import com.victorpereira.mymarketplace.dto.ClientDTO;
 import com.victorpereira.mymarketplace.dto.ClientNewDTO;
 import com.victorpereira.mymarketplace.repositories.AddressRepository;
 import com.victorpereira.mymarketplace.repositories.ClientRepository;
+import com.victorpereira.mymarketplace.security.UserSS;
+import com.victorpereira.mymarketplace.services.exceptions.AuthorizationException;
 import com.victorpereira.mymarketplace.services.exceptions.DataIntegrityException;
 import com.victorpereira.mymarketplace.services.exceptions.ObjectNotFoundException;
 
@@ -42,6 +45,10 @@ public class ClientService {
 	}
 
 	public Client findById(Integer id) {
+		UserSS user = UserService.authenticated();
+		if(user == null || !user.hasRole(Profile.ADMIN) && !id.equals(user.getId())){
+			throw new AuthorizationException("Access denied");
+		}
 		Optional<Client> obj = clientRepo.findById(id);
 		return obj.orElseThrow(
 				() -> new ObjectNotFoundException("Object not found! Id: " + id + ", Tipo: " + Client.class.getName()));
