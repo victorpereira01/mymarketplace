@@ -53,6 +53,9 @@ public class ClientService {
 	@Value("${img.prefix.client.profile}")
 	private String prefix;
 	
+	@Value("${img.profile.size}")
+	private Integer size;
+	
 	public List<Client> findAll() {
 		return clientRepo.findAll();
 	}
@@ -122,11 +125,12 @@ public class ClientService {
 	
 	public URI uploadProfilePicture(MultipartFile multipartFile) {
 		UserSS user = UserService.authenticated();
-		if(user == null) {
+		if(user == null) 
 			throw new AuthorizationException("Access denied");
-		}
 		
 		BufferedImage jpgImage = imageService.getJpgImageFromFile(multipartFile);
+		jpgImage = imageService.cropSquare(jpgImage);
+		jpgImage = imageService.resize(jpgImage, size);
 		String fileName = prefix + user.getId() + ".jpg";
 		
 		return s3service.uploadFile(imageService.getInputStream(jpgImage,  "jpg"), fileName, "image");
