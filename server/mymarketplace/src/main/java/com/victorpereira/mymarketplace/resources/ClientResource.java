@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.victorpereira.mymarketplace.domain.Client;
@@ -37,7 +38,7 @@ public class ClientResource {
 	@GetMapping
 	public ResponseEntity<List<ClientDTO>> findAll() {
 		List<Client> list = service.findAll();
-		List<ClientDTO> listDto = list.stream().map(obj -> new ClientDTO(obj)).collect(Collectors.toList());  
+		List<ClientDTO> listDto = list.stream().map(obj -> new ClientDTO(obj)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(listDto);
 	}
 
@@ -46,13 +47,12 @@ public class ClientResource {
 		Client obj = service.findById(id);
 		return ResponseEntity.ok().body(obj);
 	}
-	
+
 	@PostMapping
 	public ResponseEntity<Void> insert(@Valid @RequestBody ClientNewDTO clientDto) {
 		Client client = service.fromDTO(clientDto);
 		client = service.insert(client);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(client.getId())
-				.toUri();
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(client.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
 
@@ -80,5 +80,11 @@ public class ClientResource {
 		Page<Client> list = service.findPage(page, linesPerPage, orderBy, direction);
 		Page<ClientDTO> listDto = list.map(obj -> new ClientDTO(obj));
 		return ResponseEntity.ok().body(listDto);
+	}
+
+	@PostMapping(value = "/picture")
+	public ResponseEntity<Void> uploadProfilePicture(@RequestParam(name = "file") MultipartFile file) {
+		URI uri = service.uploadProfilePicture(file);
+		return ResponseEntity.created(uri).build();
 	}
 }

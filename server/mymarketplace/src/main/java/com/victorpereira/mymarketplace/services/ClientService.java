@@ -1,5 +1,6 @@
 package com.victorpereira.mymarketplace.services;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.victorpereira.mymarketplace.domain.Address;
 import com.victorpereira.mymarketplace.domain.City;
@@ -39,6 +41,9 @@ public class ClientService {
 	
 	@Autowired
 	private BCryptPasswordEncoder encoder;
+	
+	@Autowired
+	private S3Service s3service;
 	
 	public List<Client> findAll() {
 		return clientRepo.findAll();
@@ -100,12 +105,15 @@ public class ClientService {
 				cli.getTelephones().add(objDto.getTel3());
 			}
 			return cli;
-	
 	}
 	
 	private void updateData(Client newObj, Client obj) {
 		newObj.setName(obj.getName());
 		newObj.setEmail(obj.getEmail());
+	}
+	
+	public URI uploadProfilePicture(MultipartFile multipartFile) {
+		return s3service.uploadFile(multipartFile);
 	}
 
 }
