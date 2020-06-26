@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, IonicPage, MenuController } from 'ionic-angular';
+import { CredentialDTO } from '../../models/credential.dto';
 
 @IonicPage()
 @Component({
@@ -8,8 +9,12 @@ import { NavController, IonicPage, MenuController } from 'ionic-angular';
 })
 export class HomePage {
 
-  constructor(public navCtrl: NavController, public menu: MenuController) {
+  creds: CredentialDTO = {
+    email: "",
+    password: ""
+  }
 
+  constructor(public navCtrl: NavController, public menu: MenuController) {
   }
 
   ionViewWillEnter() {
@@ -21,6 +26,7 @@ export class HomePage {
   }
   
   login() {
+    console.log(this.creds);
     this.navCtrl.setRoot('CategoriesPage');
   }
 }
