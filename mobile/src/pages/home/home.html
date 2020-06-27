@@ -1,16 +1,16 @@
 <ion-content padding>
   <h3>My Marketplace</h3>
 
-  <img src="assets/imgs/telainicial.png" alt="telainicial">
+  <img src="assets/imgs/telainicial.png" alt="logo">
 
   <form>
     <ion-item>
       <ion-label stacked>Email</ion-label>
-      <ion-input [(ngModel)]="creds.email" name="email" type="text"></ion-input>
+      <ion-input [(ngModel)]="cred.email" name="email" type="text"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label stacked>Senha</ion-label>
-      <ion-input [(ngModel)]="creds.password" name="senha" type="password"></ion-input>
+      <ion-input [(ngModel)]="cred.password" name="senha" type="password"></ion-input>
     </ion-item>
     <button ion-button block (click)="login()">Entrar</button>
   </form>

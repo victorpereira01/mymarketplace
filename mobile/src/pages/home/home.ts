@@ -10,7 +10,7 @@ import { AuthService } from '../../services/auth.service';
 })
 export class HomePage {
 
-  creds: CredentialDTO = {
+  cred: CredentialDTO = {
     email: "",
     password: ""
   }
@@ -21,17 +21,17 @@ export class HomePage {
   ionViewWillEnter() {
     this.menu.swipeEnable(false);
   }
-  
+
   ionViewDidLeave() {
     this.menu.swipeEnable(true);
   }
-  
+
   login() {
-    this.auth.authenticate(this.creds)
+    this.auth.authenticate(this.cred)
       .subscribe(response => {
         this.auth.successfullLogin(response.headers.get('Authorization'));
         this.navCtrl.setRoot('CategoriesPage');
       },
-      error => {});
+        error => { });
   }
 }
