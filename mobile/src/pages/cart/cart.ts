@@ -4,6 +4,7 @@ import { CartItem } from '../../models/cart-item';
 import { ProductService } from '../../services/domain/product.service';
 import { API_CONFIG } from '../../config/api.config';
 import { CartService } from '../../services/domain/cart.service';
+import { ProductDTO } from '../../models/product.dto';
 
 @IonicPage()
 @Component({
@@ -15,7 +16,7 @@ export class CartPage {
   items: CartItem[];
 
   constructor(
-    public navCtrl: NavController, 
+    public navCtrl: NavController,
     public navParams: NavParams,
     public cartService: CartService,
     public productService: ProductService) {
@@ -36,5 +37,25 @@ export class CartPage {
         },
           error => { });
     }
+  }
+
+  removeItem(produto: ProductDTO) {
+    this.items = this.cartService.removeProduct(produto).items;
+  }
+
+  increaseQuantity(produto: ProductDTO) {
+    this.items = this.cartService.increaseQuantity(produto).items;
+  }
+
+  decreaseQuantity(produto: ProductDTO) {
+    this.items = this.cartService.decreaseQuantity(produto).items;
+  }
+
+  total(): number {
+    return this.cartService.total();
+  }
+
+  goOn() {
+    this.navCtrl.setRoot('CategoriesPage');
   }
 }
