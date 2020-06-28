@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AddressDTO } from '../../models/address.dto';
+import { StorageService } from '../../services/storage.service';
+import { ClientService } from '../../services/domain/client.service';
 
 
 @IonicPage()
@@ -12,43 +14,27 @@ export class PickAddressPage {
 
   items: AddressDTO[];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams,
+    public storage: StorageService,
+    public clientService: ClientService) {
   }
 
   ionViewDidLoad() {
-    this.items = [
-      {
-        id: "1",
-        publicPlace: "Rua Quinze de Novembro",
-        number: "300",
-        complement: "Apto 200",
-        neighborhood: "Santa Mônica",
-        cep: "48293822",
-        city: {
-          id: "1",
-          name: "Uberlândia",
-          state: {
-            id: "1",
-            name: "Minas Gerais"
-          }
-        }
-      },
-      {
-        id: "2",
-        publicPlace: "Rua Alexandre Toledo da Silva",
-        number: "405",
-        complement: null,
-        neighborhood: "Centro",
-        cep: "88933822",
-        city: {
-          id: "3",
-          name: "São Paulo",
-          state: {
-            id: "2",
-            name: "São Paulo"
-          }
-        }
-      }
-    ];
+    let localUser = this.storage.getLocalUser();
+    if (localUser && localUser.email) {
+      this.clientService.findByEmail(localUser.email)
+        .subscribe(response => {
+          this.items = response['adresses'];
+        },
+          error => {
+            if (error.status == 403) {
+              this.navCtrl.setRoot('HomePage');
+            }
+          });
+    } else {
+      this.navCtrl.setRoot('HomePage');
+    }
   }
 }
