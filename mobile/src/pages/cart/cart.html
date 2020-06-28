@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Cart</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <ion-item *ngFor="let item of items">
+      <ion-thumbnail item-start>
+        <img [src]="item.product.imgUrl || 'assets/imgs/prod.jpg'">
+      </ion-thumbnail>
+      <h2>{{item.product.name}}</h2>
+      <p>{{item.product.price | currency}}</p>
+      <p>{{item.quantity}}</p>
+    </ion-item>
+  </ion-list>
+</ion-content>
