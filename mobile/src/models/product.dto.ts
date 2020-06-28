@@ -4,3 +4,4 @@ export interface ProductDTO {
     price: number;
     imgUrl?: string;
 }
+
