@@ -25,6 +25,7 @@ export class MyApp {
     this.pages = [
       { title: 'Perfil', component: 'ProfilePage' },
       { title: 'Categorias', component: 'CategoriesPage' },
+      { title: 'Carrinho', component: 'CartPages' },
       { title: 'Logout', component: '' },
     ];
 

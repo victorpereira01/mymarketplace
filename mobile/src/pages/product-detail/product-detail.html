@@ -1,19 +1,24 @@
 <ion-header>
   <ion-navbar>
     <button ion-button menuToggle>
-        <ion-icon name="menu"></ion-icon>
+      <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>ProdutoDetail</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
+  <ion-fab top right edge>
+    <button navPush="CartPage" ion-fab mini>
+      <ion-icon name="cart"></ion-icon>
+    </button>
+  </ion-fab>
   <ion-card>
-    <img [src]="item?.imgUrl || 'assets/imgs/prod.jpg'"/>
+    <img [src]="item?.imgUrl || 'assets/imgs/prod.jpg'" />
     <ion-card-content>
       <ion-card-title>
         {{item?.name}}
-        </ion-card-title>
+      </ion-card-title>
       <p>
         {{item?.price | currency}}
       </p>
