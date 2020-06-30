@@ -11,7 +11,9 @@ import { API_CONFIG } from '../../config/api.config';
 })
 export class ProductsPage {
 
-  items: ProductDTO[];
+  items: ProductDTO[] = [];
+
+  page: number = 0;
 
   constructor(
     public navCtrl: NavController,
@@ -21,21 +23,27 @@ export class ProductsPage {
   }
 
   ionViewDidLoad() {
+    this.loadData();
+  }
+
+  loadData() {
     let category_id = this.navParams.get('categoryId');
     let loader = this.presentLoading();
-    this.productService.findByCategory(category_id)
+    this.productService.findByCategory(category_id, this.page, 10)
       .subscribe(response => {
-        this.items = response['content'];
+        let start = this.items.length;
+        this.items = this.items.concat(response['content']);
+        let end = this.items.length - 1;
         loader.dismiss();
-        this.loadImageUrls();
+        this.loadImageUrls(start, end);
       },
         error => {
           loader.dismiss();
-         });
+        });
   }
 
-  loadImageUrls() {
-    for (var i = 0; i < this.items.length; i++) {
+  loadImageUrls(start: number, end: number) {
+    for (var i = start; i < end; i++) {
       let item = this.items[i];
       this.productService.getSmallImageFromBucket(item.id)
         .subscribe(response => {
@@ -46,7 +54,7 @@ export class ProductsPage {
   }
 
   showDetail(product_id: string) {
-    this.navCtrl.push('ProductDetailPage', {product_id: product_id});
+    this.navCtrl.push('ProductDetailPage', { product_id: product_id });
   }
 
   presentLoading() {
@@ -55,5 +63,22 @@ export class ProductsPage {
     });
     loader.present();
     return loader;
+  }
+
+  doRefresh(refresher) {
+    this.page = 0;
+    this.items == [];
+    this.loadData();
+    setTimeout(() => {
+      refresher.complete();
+    }, 1000);
+  }
+
+  doInfinite(infiniteScroll) {
+    this.page++;
+    this.loadData();
+    setTimeout(() => {
+      infiniteScroll.complete();
+    }, 1000);
   }
 }
